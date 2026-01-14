@@ -1,0 +1,48 @@
+<view class="container">
+  <view class="section-title">日历显示设置</view>
+  <view class="card">
+    <view class="row">
+      <text>每周起始日</text>
+      <picker mode="selector" range="{{['周日', '周一']}}" value="{{weekStartDay}}" bindchange="bindWeekStartChange">
+        <view class="picker-val">{{weekStartDay == 0 ? '周日' : '周一'}}</view>
+      </picker>
+    </view>
+  </view>
+
+  <view class="section-title">默认休息时间设置</view>
+  <view class="hint">系统计算时长时，会自动扣除以下时间段</view>
+
+  <view class="card">
+    <view class="row">
+      <text>午休开始</text>
+      <picker mode="time" value="{{lunchStart}}" bindchange="bindChange" data-field="lunchStart">
+        <view class="picker-val">{{lunchStart}}</view>
+      </picker>
+    </view>
+    <view class="divider"></view>
+    <view class="row">
+      <text>午休结束</text>
+      <picker mode="time" value="{{lunchEnd}}" bindchange="bindChange" data-field="lunchEnd">
+        <view class="picker-val">{{lunchEnd}}</view>
+      </picker>
+    </view>
+  </view>
+
+  <view class="card">
+    <view class="row">
+      <text>晚休开始 (计算加班起点)</text>
+      <picker mode="time" value="{{dinnerStart}}" bindchange="bindChange" data-field="dinnerStart">
+        <view class="picker-val">{{dinnerStart}}</view>
+      </picker>
+    </view>
+    <view class="divider"></view>
+    <view class="row">
+      <text>晚休结束</text>
+      <picker mode="time" value="{{dinnerEnd}}" bindchange="bindChange" data-field="dinnerEnd">
+        <view class="picker-val">{{dinnerEnd}}</view>
+      </picker>
+    </view>
+  </view>
+
+  <button class="save-btn" bindtap="saveSettings">保存设置</button>
+</view>

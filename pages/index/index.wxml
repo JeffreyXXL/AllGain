@@ -1,0 +1,129 @@
+<view class="container">
+  <view class="top-section">
+    <view class="month-selector">
+      <view class="month-left">
+        <picker mode="date" fields="month" value="{{year}}-{{month+1}}" bindchange="bindDateChange">
+          <view class="month-title">
+            {{year}}年 {{month + 1}}月 <text style="font-size:12px; color:#999;">▼</text>
+          </view>
+        </picker>
+        <view class="today-btn" bindtap="goToday">今</view>
+      </view>
+      
+      <view class="arrows">
+        <view class="arrow-btn" bindtap="prevMonth">←</view>
+        <view class="arrow-btn" bindtap="nextMonth">→</view>
+      </view>
+    </view>
+
+    <view class="stats-row">
+      <view class="stat-box purple-bg">
+        <text class="label">本月加班</text>
+        <text class="value">{{currentMonthOt}}h</text>
+      </view>
+      <view class="stat-box green-bg">
+        <text class="label">本月调休</text>
+        <text class="value">{{currentMonthOff}}h</text>
+      </view>
+      <view class="stat-box gray-bg">
+        <text class="label">本月结余</text>
+        <text class="value">{{currentMonthNet}}h</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="calendar-card card-shadow" bindtouchstart="touchStart" bindtouchend="touchEnd">
+    <view class="week-row">
+      <view wx:for="{{weekDays}}" wx:key="*this" class="week-item">{{item}}</view>
+    </view>
+
+    <view class="days-grid" animation="{{animationData}}">
+      <view wx:for="{{emptyGrids}}" wx:key="*this"></view>
+      
+      <view wx:for="{{days}}" wx:key="date" 
+            class="day-cell {{item.selected ? 'selected-day' : ''}} {{item.type === 'overtime' ? 'is-overtime' : ''}} {{item.type === 'off' ? 'is-off' : ''}} {{item.isToday ? 'is-today' : ''}}"
+            bindtap="onDayClick" data-day="{{item.day}}">
+            
+        <text class="day-num">{{item.day}}</text>
+
+        <view wx:if="{{item.tagType === 'rest'}}" class="tag-rest">休</view>
+        <view wx:if="{{item.tagType === 'work'}}" class="tag-work">班</view>
+
+        <text class="day-hours" wx:if="{{item.hours}}">{{item.hours}}h</text>
+        <text class="today-tag" wx:elif="{{item.isToday}}">今</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="bottom-action">
+    <view class="info-card empty-state" wx:if="{{!selectedDateStr}}">
+      <text>请点击日历选择日期</text>
+    </view>
+
+    <view class="info-card record-state" wx:elif="{{currentDayRecord}}">
+      <view class="record-info">
+        <view class="record-header">
+          <text class="record-date">{{selectedDateStr}}</text>
+          <text class="record-badge {{currentDayRecord.type === 'overtime' ? 'badge-red' : 'badge-green'}}">
+            {{currentDayRecord.type === 'overtime' ? '加班' : '调休'}}
+          </text>
+        </view>
+        <view class="record-detail">
+          <text class="detail-hours">{{currentDayRecord.hours}} 小时</text>
+          <text class="detail-time" wx:if="{{currentDayRecord.startTime}}">{{currentDayRecord.startTime}} - {{currentDayRecord.endTime}}</text>
+        </view>
+      </view>
+      
+      <view class="action-btns">
+        <view class="icon-btn edit-btn" bindtap="onEditRecord">✎</view>
+        <view class="icon-btn del-btn" bindtap="onDeleteRecord">🗑</view>
+      </view>
+    </view>
+
+    <view class="info-card add-state" wx:else>
+      <text class="record-date">{{selectedDateStr}}</text>
+      <button class="add-btn" bindtap="showModal">+ 记一笔</button>
+    </view>
+  </view>
+</view>
+
+<view class="modal-mask" wx:if="{{!modalHidden}}">
+  <view class="modal-box card-shadow">
+    <view class="modal-header">
+      <text>新建/编辑记录</text>
+      <view class="close-icon" bindtap="hideModal">×</view>
+    </view>
+    
+    <view class="type-switch">
+      <view class="switch-item {{currentType=='overtime'?'active-ot':''}}" bindtap="changeType" data-type="overtime">加班</view>
+      <view class="switch-item {{currentType=='off'?'active-off':''}}" bindtap="changeType" data-type="off">调休</view>
+    </view>
+
+    <view class="time-row">
+      <view class="time-group">
+        <text class="input-label">开始时间</text>
+        <picker mode="time" value="{{startTime}}" bindchange="bindStartTimeChange">
+          <view class="time-picker-box">{{startTime}}</view>
+        </picker>
+      </view>
+      <view class="time-divider">至</view>
+      <view class="time-group">
+        <text class="input-label">结束时间</text>
+        <picker mode="time" value="{{endTime}}" bindchange="bindEndTimeChange">
+          <view class="time-picker-box">{{endTime}}</view>
+        </picker>
+      </view>
+    </view>
+
+    <view class="input-section">
+      <text class="input-label">总时长 (自动计算)</text>
+      <input class="num-input {{currentType=='overtime'?'text-red':'text-green'}}" 
+             type="digit" 
+             value="{{currentHours}}" 
+             bindinput="hoursInput" 
+             placeholder="0.0" />
+    </view>
+
+    <button class="save-btn {{currentType=='overtime'?'btn-red':'btn-green'}}" bindtap="saveRecord">✓ 保存</button>
+  </view>
+</view>

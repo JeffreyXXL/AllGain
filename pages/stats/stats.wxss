@@ -1,0 +1,86 @@
+.container { padding: 25px; background: #F8F9FD; min-height: 100vh; }
+
+.page-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+.header-title { font-size: 28px; font-weight: bold; color: #333; margin: 0; }
+.settings-btn { background: #fff; padding: 6px 12px; border-radius: 20px; font-size: 14px; color: #666; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+
+.cards-area { display: flex; gap: 15px; margin-bottom: 20px; }
+.big-card { flex: 1; border-radius: 20px; padding: 20px; height: 100px; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 8px 20px rgba(0,0,0,0.1); transition: all 0.3s ease; }
+.red-gradient { background: linear-gradient(135deg, #ff7875 0%, #d9363e 100%); color: white; box-shadow: 0 8px 20px rgba(217, 54, 62, 0.3); }
+.green-gradient { background: linear-gradient(135deg, #85e0a3 0%, #2b9e58 100%); color: white; box-shadow: 0 8px 20px rgba(43, 158, 88, 0.3); }
+.inactive { opacity: 0.4; filter: grayscale(0.5); }
+.card-label { font-size: 12px; opacity: 0.9; }
+.card-value { font-size: 28px; font-weight: bold; }
+.unit { font-size: 14px; margin-left: 2px; }
+
+.balance-strip { background: #fff; padding: 20px; border-radius: 16px; margin-bottom: 30px; }
+.balance-info .label { display: block; font-size: 12px; color: #999; margin-bottom: 5px; }
+.balance-row { display: flex; align-items: baseline; gap: 10px; }
+.balance-info .value { font-size: 32px; font-weight: bold; font-family: 'DIN Alternate', sans-serif; }
+.text-green { color: #2b9e58; }
+.text-red { color: #d9363e; }
+.convert-hint { font-size: 14px; color: #666; background: #f0f0f0; padding: 2px 8px; border-radius: 4px; }
+
+/* === 列表与左滑核心样式 === */
+.month-group { margin-bottom: 20px; }
+.month-title { font-size: 14px; color: #999; margin-bottom: 10px; margin-left: 5px; font-weight: bold; }
+
+.list-item-wrapper { 
+  margin-bottom: 12px; 
+  height: 80px; 
+  border-radius: 12px; 
+  overflow: hidden; /* 隐藏右侧溢出的按钮 */
+  position: relative;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+}
+
+.swipe-area { 
+  width: 100%; 
+  height: 100%; 
+  background: #fff; 
+}
+
+/* 关键：宽度要比容器宽，才能滑动 */
+.swipe-view { 
+  width: calc(100% + 80px); 
+  height: 100%; 
+  display: flex; 
+  align-items: center; 
+}
+
+/* 内容区域：减去按钮的宽度，剩下的就是填满屏幕的宽度 */
+.list-item-content { 
+  width: calc(100% - 80px); 
+  height: 100%;
+  padding: 0 15px; 
+  display: flex; 
+  justify-content: space-between; 
+  align-items: center; 
+  box-sizing: border-box; 
+  background: #fff;
+}
+
+/* 删除按钮：固定宽度 */
+.delete-btn { 
+  width: 80px; 
+  height: 100%; 
+  background: #ff4d4f; 
+  color: #fff; 
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+  font-weight: bold; 
+  font-size: 14px;
+}
+
+/* 列表内部元素 */
+.item-left { display: flex; align-items: center; gap: 12px; }
+.icon-box { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 14px; }
+.icon-red { background: #fff1f0; color: #d9363e; }
+.icon-green { background: #f6ffed; color: #2b9e58; }
+.item-info { display: flex; flex-direction: column; }
+.item-date { font-size: 16px; font-weight: 500; color: #333; }
+.item-time-range { font-size: 12px; color: #999; margin-top: 4px; }
+.item-hours { font-size: 18px; font-weight: bold; color: #333; }
+
+.empty-tip { text-align: center; color: #ccc; margin-top: 40px; }

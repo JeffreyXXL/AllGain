@@ -1,0 +1,20 @@
+/** app.wxss **/
+page {
+  background-color: #F8F9FD; /* 浅灰背景 */
+  font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica, sans-serif;
+  box-sizing: border-box;
+}
+
+/* 全局卡片样式 */
+.card-shadow {
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+/* 隐藏滚动条 */
+::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  color: transparent;
+}

@@ -1,0 +1,72 @@
+<view class="container" bindtap="onTapContainer">
+  <view class="page-header">
+    <view class="header-title">数据统计</view>
+    <view class="settings-btn" bindtap="goSettings">⚙️ 设置</view>
+  </view>
+  
+  <view class="cards-area">
+    <view class="big-card red-gradient {{filterType === 'off' ? 'inactive' : ''}}" 
+          bindtap="toggleFilter" data-type="overtime">
+      <view class="card-label">累计加班</view>
+      <view class="card-value">{{totalOvertime}}<text class="unit">h</text></view>
+    </view>
+
+    <view class="big-card green-gradient {{filterType === 'overtime' ? 'inactive' : ''}}" 
+          bindtap="toggleFilter" data-type="off">
+      <view class="card-label">累计调休</view>
+      <view class="card-value">{{totalOff}}<text class="unit">h</text></view>
+    </view>
+  </view>
+
+  <view class="balance-strip card-shadow">
+    <view class="balance-info">
+      <text class="label">当前剩余 (加班 - 调休)</text>
+      <view class="balance-row">
+        <text class="value {{isPositive ? 'text-green' : 'text-red'}}">{{balance}} h</text>
+        <text class="convert-hint">≈ {{balanceStr}}</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="list-section">
+    <view wx:if="{{groupedList.length === 0}}" class="empty-tip">暂无记录</view>
+
+    <view wx:for="{{groupedList}}" wx:key="title" class="month-group">
+      <view class="month-title">{{item.title}}</view>
+
+      <view wx:for="{{item.items}}" wx:key="_id" wx:for-item="record" class="list-item-wrapper">
+        <movable-area class="swipe-area">
+          <movable-view class="swipe-view" 
+                        direction="horizontal" 
+                        x="{{record.x}}" 
+                        out-of-bounds="true" 
+                        damping="100"
+                        bindchange="onSwipeChange"
+                        bindtouchstart="onTouchItem"
+                        data-id="{{record._id}}">
+            
+            <view class="list-item-content">
+              <view class="item-left">
+                <view class="icon-box {{record.type=='overtime'?'icon-red':'icon-green'}}">
+                  {{record.type=='overtime' ? '加' : '休'}}
+                </view>
+                <view class="item-info">
+                  <view class="item-date">{{record.date}}</view>
+                  <view class="item-time-range" wx:if="{{record.startTime}}">
+                    {{record.startTime}}-{{record.endTime}}
+                  </view>
+                </view>
+              </view>
+              <view class="item-right">
+                <text class="item-hours">{{record.hours}}h</text>
+              </view>
+            </view>
+
+            <view class="delete-btn" catchtap="handleDelete" data-id="{{record._id}}">删除</view>
+
+          </movable-view>
+        </movable-area>
+      </view>
+    </view>
+  </view>
+</view>
